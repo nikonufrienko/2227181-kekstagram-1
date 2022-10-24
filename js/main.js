@@ -10,3 +10,7 @@ function randomInt(min, max) {// Результат: целое число из 
 function checkStringLength(str, maxLength) { // Результат: true, если строка проходит по длине, и false — если не проходит
   return str.length <= maxLength;
 }
+
+// иначе будет ошибка "... is defined but never used")
+randomInt(0, 10);
+checkStringLength('abcd', 3);
