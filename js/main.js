@@ -1,3 +1,4 @@
-import {generateImageDiscryption} from './data.js';
-// иначе будет ошибка '... is defined but never used')
-generateImageDiscryption();
+import {generateImageDiscryptions} from './data.js';
+import {drawPictures} from './pictures.js';
+
+drawPictures(generateImageDiscryptions());

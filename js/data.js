@@ -32,7 +32,7 @@ function generateComments() {
 }
 
 
-function generateImageDiscryption() {
+function generateImageDiscryptions() {
   const imageDescriptions = [];
   for(let i = 1; i <= 25; i++) {
     const result = {
@@ -47,4 +47,4 @@ function generateImageDiscryption() {
   return imageDescriptions;
 }
 
-export {generateImageDiscryption};
+export {generateImageDiscryptions};
