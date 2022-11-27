@@ -1,4 +1,5 @@
 import {generateImageDiscryptions} from './data.js';
+import {showBigPicture} from './bigPicture.js';
 
 function generatePicture(pictureData){
   const template = document.querySelector('#picture').content;
@@ -17,6 +18,9 @@ function drawPictures(picturesData) {
   const picturesContainer = document.querySelector('.pictures');
   for(const pictureData of picturesData) {
     const picture = generatePicture(pictureData);
+    picture.onclick = () => {
+      showBigPicture(pictureData);
+    };
     picturesContainer.appendChild(picture);
   }
 }
