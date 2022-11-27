@@ -40,7 +40,7 @@ function generateImageDiscryptions() {
       url: `photos/${i}.jpg`,
       description: 'Описание отсутсвует',
       likes: randomInt(15,201),
-      comments: [generateComments()]
+      comments: generateComments()
     };
     imageDescriptions.push(result);
   }
