@@ -1395,3 +1395,9 @@ main {
 .hidden {
   display: none;
 }
+
+.error_element {
+   margin-bottom: 0;
+   color: #e46d50;
+   font-weight: bold;
+}
