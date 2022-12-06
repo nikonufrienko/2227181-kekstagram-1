@@ -1,4 +1,3 @@
-import {generateImageDiscryptions} from './data.js';
 import {showBigPicture} from './bigPicture.js';
 
 function generatePicture(pictureData){
@@ -24,7 +23,5 @@ function drawPictures(picturesData) {
     picturesContainer.appendChild(picture);
   }
 }
-
-drawPictures(generateImageDiscryptions());
 
 export {drawPictures};

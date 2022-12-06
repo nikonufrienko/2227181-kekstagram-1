@@ -1,17 +1,19 @@
 const bigPicture = document.querySelector('.big-picture');
-const closeButton = bigPicture.querySelector('.big-picture__cancel');
 let bigPictureIsShowed = false;
 
-document.addEventListener('keydown', (evt) => {
-  // на .big-picture не удается повесить этот обработчик
-  if(evt.key === 'Escape' && bigPictureIsShowed) {
-    closeBigPicture();
-  }
-});
+function initBigPictureViewer() {
+  const closeButton = bigPicture.querySelector('.big-picture__cancel');
 
-closeButton.onclick = () => {
-  closeBigPicture();
-};
+  document.addEventListener('keydown', (evt) => {
+    // на .big-picture не удается повесить этот обработчик
+    if(evt.key === 'Escape' && bigPictureIsShowed) {
+      closeBigPicture();
+    }
+  });
+  closeButton.onclick = () => {
+    closeBigPicture();
+  };
+}
 
 function closeBigPicture() {
   bigPictureIsShowed = false;
@@ -60,4 +62,4 @@ function showBigPicture(imageData) {
   socialComments.classList.add('hidden');
 }
 
-export {showBigPicture};
+export {showBigPicture,initBigPictureViewer};

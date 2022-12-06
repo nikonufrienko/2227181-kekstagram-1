@@ -1395,3 +1395,8 @@ main {
 .hidden {
   display: none;
 }
+
+.error_element_auto_checker {
+   color: #e46d50;
+   font-weight: bold;
+}
