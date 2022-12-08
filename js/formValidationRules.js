@@ -2,6 +2,7 @@ import { AutoChecker } from './validator.js';
 const hashtagInput = document.querySelector('.text__hashtags');
 const submitButton = document.querySelector('#upload-submit');
 const description = document.querySelector('.text__description');
+const form = document.querySelector('.img-upload__form');
 
 const hashtagsValidationMsg = {
   wrongMinLen: 'Хэштеги не могут быть пустыми!',
@@ -24,7 +25,7 @@ const validationConditions = {
 };
 
 function initValidation() {
-  const hashtagAutoChecker = new AutoChecker(hashtagInput, submitButton);
+  const hashtagAutoChecker = new AutoChecker(hashtagInput, submitButton, form);
   for (const key in hashtagsValidationMsg) {
     hashtagAutoChecker.setAutoChecking((it) => {
       const hashtags = it.value.split(' ');

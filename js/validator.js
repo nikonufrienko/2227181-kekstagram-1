@@ -3,9 +3,13 @@ function hasErrors(){
   return element === null;
 }
 
+function removeAllErrors() {
+  const elements = document.querySelectorAll('.error_element_auto_checker');
+  elements.forEach((it) => it.remove());
+}
 
 class AutoChecker {
-  constructor(inputElement, elementForBlocking) {
+  constructor(inputElement, elementForBlocking, form) {
     this.elementForBlocking = null;
     if(elementForBlocking) {
       this.elementForBlocking = elementForBlocking;
@@ -19,6 +23,11 @@ class AutoChecker {
         }
       }
     );
+    this.form = null;
+    if(form) {
+      this.form = form;
+      form.addEventListener('reset', removeAllErrors);
+    }
   }
 
   errorIsShowed(error) {
@@ -43,7 +52,13 @@ class AutoChecker {
     if(this.elementForBlocking !== null && !this.elementForBlocking.hasAttribute('disabled')) {
       this.elementForBlocking.toggleAttribute('disabled');
     }
-    const element = document.createElement('div');
+    const element = document.createElement('p');
+    // бот удалил коммитом мои стили CSS ----
+    element.style.color = '#fc008c';
+    element.style.height = '10px';
+    element.style.lineHeight = '10px';
+    element.style.fontWeight = 'bold';
+    //-----
     element.classList.add('error_element_auto_checker');
     element.textContent = error;
     this.inputElement.parentElement.appendChild(element);

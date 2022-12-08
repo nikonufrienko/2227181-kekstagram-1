@@ -1,8 +1,26 @@
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const submitButton = document.querySelector('.img-upload__submit');
+const fileInput = document.querySelector('#upload-file');
+const imgPreview = document.querySelector('.img-upload__preview img');
+const form = document.querySelector('.img-upload__form');
+function prepairePreviews(){
+  const fr = new FileReader();
+  fr.onload = function () {
+    imgPreview.src = fr.result;
+  };
+  fr.readAsDataURL(fileInput.files[0]);
+}
+
+function showImgUploadOverlay(){
+  prepairePreviews();
+  imgUploadOverlay.classList.remove('hidden');
+}
 
 function closeImgUploadOverlay() {
-  imgUploadOverlay.classList.add('hidden');
+  if(isImgUploadOverlayShowed()) {
+    imgUploadOverlay.classList.add('hidden');
+    form.reset();
+  }
 }
 
 function isImgUploadOverlayShowed() {
@@ -22,18 +40,17 @@ function unblockSubmitButton() {
 }
 
 function initForm() {
-  const fileInput = document.querySelector('#upload-file');
-  const form = document.querySelector('.img-upload__form');
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     blockSubmitButton();
-    //...
+    /*...*/
     unblockSubmitButton();
     form.reset();
     closeImgUploadOverlay();
   });
+
   fileInput.addEventListener('change', () => {
-    imgUploadOverlay.classList.remove('hidden');
+    showImgUploadOverlay();
   });
 
   const closeButton = document.querySelector('.img-upload__cancel');
