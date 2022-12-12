@@ -4,12 +4,31 @@ const scalePlusButton = document.querySelector('.scale__control--bigger');
 const scaleMinusButton = document.querySelector('.scale__control--smaller');
 const scaleControlValue = document.querySelector('.scale__control--value');
 const radioButtons = document.querySelectorAll('.effects__radio');
-const form = document.querySelector('.img-upload__form');
+const effectLevelValue = document.querySelector('.effect-level__value');
+const SCALE_STEP = 25;
 
 let currentFilter = 'none';
-const effectLevelValue = document.querySelector('.effect-level__value');
+
+const filterNames = {
+  none : 'none',
+  chrome : 'chrome',
+  sepia : 'sepia',
+  marvin : 'marvin',
+  phobos : 'phobos',
+  heat : 'heat'
+};
+
 const sliderOptions = {
-  'chrome': {
+  [filterNames.none]: {
+    range: {
+      min: 0,
+      max: 0,
+    },
+    start: 0,
+    step: 0,
+    connect: 'lower'
+  },
+  [filterNames.chrome]: {
     range: {
       min: 0,
       max: 1,
@@ -18,7 +37,7 @@ const sliderOptions = {
     step: 0.1,
     connect: 'lower'
   },
-  'sepia': {
+  [filterNames.sepia]: {
     range: {
       min: 0,
       max: 1,
@@ -27,7 +46,7 @@ const sliderOptions = {
     step: 0.1,
     connect: 'lower'
   },
-  'marvin': {
+  [filterNames.marvin]: {
     range: {
       min: 0,
       max: 100,
@@ -36,7 +55,7 @@ const sliderOptions = {
     step: 1,
     connect: 'lower'
   },
-  'phobos': {
+  [filterNames.phobos]: {
     range: {
       min: 0,
       max: 3,
@@ -45,7 +64,7 @@ const sliderOptions = {
     step: 0.3,
     connect: 'lower'
   },
-  'heat': {
+  [filterNames.heat]: {
     range: {
       min: 0,
       max: 3,
@@ -58,12 +77,12 @@ const sliderOptions = {
 
 
 const filterSetters = {
-  'none': () => { imgPreview.style.filter = ''; },
-  'chrome': (value) => { imgPreview.style.filter = `grayscale(${value})`; },
-  'sepia': (value) => { imgPreview.style.filter = `sepia(${value})`; },
-  'marvin': (value) => { imgPreview.style.filter = `invert(${value}%)`; },
-  'phobos': (value) => { imgPreview.style.filter = `blur(${value}px)`; },
-  'heat': (value) => { imgPreview.style.filter = `brightness(${value})`; }
+  [filterNames.none]: () => { imgPreview.style.filter = ''; },
+  [filterNames.chrome]: (value) => { imgPreview.style.filter = `grayscale(${value})`; },
+  [filterNames.sepia]: (value) => { imgPreview.style.filter = `sepia(${value})`; },
+  [filterNames.marvin]: (value) => { imgPreview.style.filter = `invert(${value}%)`; },
+  [filterNames.phobos]: (value) => { imgPreview.style.filter = `blur(${value}px)`; },
+  [filterNames.heat]: (value) => { imgPreview.style.filter = `brightness(${value})`; }
 };
 
 function showSliderElement() {
@@ -79,13 +98,13 @@ function hideSliderElement() {
 
 function updateSlider(filter) {
   currentFilter = filter;
-  if (filter !== 'none') {
+  if (filter === 'none') {
+    sliderElement.noUiSlider.set(0);
+    hideSliderElement();
+  } else {
     showSliderElement();
     sliderElement.noUiSlider.updateOptions(sliderOptions[filter]);
     sliderElement.noUiSlider.set(sliderOptions[filter].start);
-  } else {
-    sliderElement.noUiSlider.set(0);
-    hideSliderElement();
   }
 }
 
@@ -107,7 +126,7 @@ function updateEffectValue(value) {
   filterSetters[currentFilter](value);
 }
 
-function reset() {
+function resetEditor() {
   //INITIAL SCALING
   addToScale(0);
   currentFilter = 'none';
@@ -116,8 +135,7 @@ function reset() {
 
 
 function initEditing() {
-  form.addEventListener('reset', reset);
-  noUiSlider.create(sliderElement, sliderOptions['chrome']);
+  noUiSlider.create(sliderElement, sliderOptions[filterNames.none]);
 
   sliderElement.noUiSlider.on('update', () => updateEffectValue(sliderElement.noUiSlider.get()));
 
@@ -125,19 +143,17 @@ function initEditing() {
   radioButtons.forEach((it) => {
     it.addEventListener('click', () => {
       updateSlider(it.value);
-    }
-    );
+    });
   });
 
-  scalePlusButton.onclick = () => {
-    addToScale(25);
-  };
+  scalePlusButton.addEventListener('click', () => {
+    addToScale(SCALE_STEP);
+  });
 
-  scaleMinusButton.onclick = () => {
-    addToScale(-25);
-  };
-
-  reset();
+  scaleMinusButton.addEventListener('click', () => {
+    addToScale(-SCALE_STEP);
+  });
+  resetEditor();
 }
 
-export { initEditing };
+export { initEditing, resetEditor};

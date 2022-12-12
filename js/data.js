@@ -1,5 +1,7 @@
 import { randomInt } from './utils.js';
 
+const serverAddress = 'https://26.javascript.pages.academy/kekstagram/data';
+
 const commentsVariants = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.', 'В целом всё неплохо. Но не всё.',
@@ -48,4 +50,35 @@ function generateImageDiscryptions() {
   return imageDescriptions;
 }
 
-export { generateImageDiscryptions };
+function showErrorLoading() {
+  const footer = document.querySelector('footer');
+  const div = document.createElement('div');
+  div.classList.add('error_image_loading');
+  const newElement = document.createElement('p');
+  newElement.textContent = 'Ошибка загрузки изображений!';
+  newElement.classList.add('error__title');
+  div.appendChild(newElement);
+  div.setAttribute('style',  'padding-top: 200px;' );
+  newElement.setAttribute('style', 'line-height: 40px;  text-align: center;');
+  document.body.insertBefore(div,footer);
+}
+
+function hideErrorLoading() {
+  const errorElement = document.querySelector('.error_image_loading');
+  if(errorElement) {
+    errorElement.remove();
+  }
+}
+
+function setRecieverImagesFromServer(resultGetter) { //resultGetter
+  fetch(serverAddress).then( (response) =>{
+    if(response.ok){
+      hideErrorLoading();
+      return response.json();
+    }
+    throw new Error(`${response.status} — ${response.statusText}`);
+  }).then((data) => resultGetter(data))
+    .catch(() => showErrorLoading());
+}
+
+export { generateImageDiscryptions, setRecieverImagesFromServer };

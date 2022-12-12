@@ -15,9 +15,9 @@ function initBigPictureViewer() {
       closeBigPicture();
     }
   });
-  closeButton.onclick = () => {
+  closeButton.addEventListener('click', () => {
     closeBigPicture();
-  };
+  });
 }
 
 function closeBigPicture() {
