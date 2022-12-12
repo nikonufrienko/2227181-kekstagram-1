@@ -17,9 +17,9 @@ function drawPictures(picturesData) {
   const picturesContainer = document.querySelector('.pictures');
   for(const pictureData of picturesData) {
     const picture = generatePicture(pictureData);
-    picture.onclick = () => {
+    picture.addEventListener('click', () => {
       showBigPicture(pictureData);
-    };
+    });
     picturesContainer.appendChild(picture);
   }
 }
