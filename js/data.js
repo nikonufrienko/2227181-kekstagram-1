@@ -1,5 +1,4 @@
 import { randomInt } from './utils.js';
-
 const serverAddress = 'https://26.javascript.pages.academy/kekstagram/data';
 
 const commentsVariants = [
@@ -72,6 +71,7 @@ function hideErrorLoading() {
 }
 
 function setRecieverImagesFromServer(resultGetter) { //resultGetter
+  //если изображения не загружаются, то и callback не вызывается
   fetch(serverAddress).then( (response) =>{
     if(response.ok){
       hideErrorLoading();
