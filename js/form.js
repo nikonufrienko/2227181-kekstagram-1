@@ -6,6 +6,7 @@ const fileInput = document.querySelector('#upload-file');
 const imgPreview = document.querySelector('.img-upload__preview img');
 const form = document.querySelector('.img-upload__form');
 
+/*Задание 12.12 было ранее реализовано при выполнении задания 9.9*/
 function prepairePreviews() {
   const fr = new FileReader();
   fr.onload = function () {
