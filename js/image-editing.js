@@ -1,11 +1,12 @@
-const sliderElement = document.querySelector('.effect-level__slider');
-const imgPreview = document.querySelector('.img-upload__preview img');
-const scalePlusButton = document.querySelector('.scale__control--bigger');
-const scaleMinusButton = document.querySelector('.scale__control--smaller');
-const scaleControlValue = document.querySelector('.scale__control--value');
-const radioButtons = document.querySelectorAll('.effects__radio');
-const effectLevelValue = document.querySelector('.effect-level__value');
 const SCALE_STEP = 25;
+
+const sliderElement = document.querySelector('.effect-level__slider');
+const imgPreviewElement = document.querySelector('.img-upload__preview img');
+const scalePlusButtonElement = document.querySelector('.scale__control--bigger');
+const scaleMinusButtonElement = document.querySelector('.scale__control--smaller');
+const scaleControlValueElement = document.querySelector('.scale__control--value');
+const radioButtonsElement = document.querySelectorAll('.effects__radio');
+const effectLevelValueElement = document.querySelector('.effect-level__value');
 
 let currentFilter = 'none';
 
@@ -77,12 +78,12 @@ const sliderOptions = {
 
 
 const filterSetters = {
-  [filterNames.none]: () => { imgPreview.style.filter = ''; },
-  [filterNames.chrome]: (value) => { imgPreview.style.filter = `grayscale(${value})`; },
-  [filterNames.sepia]: (value) => { imgPreview.style.filter = `sepia(${value})`; },
-  [filterNames.marvin]: (value) => { imgPreview.style.filter = `invert(${value}%)`; },
-  [filterNames.phobos]: (value) => { imgPreview.style.filter = `blur(${value}px)`; },
-  [filterNames.heat]: (value) => { imgPreview.style.filter = `brightness(${value})`; }
+  [filterNames.none]: () => { imgPreviewElement.style.filter = ''; },
+  [filterNames.chrome]: (value) => { imgPreviewElement.style.filter = `grayscale(${value})`; },
+  [filterNames.sepia]: (value) => { imgPreviewElement.style.filter = `sepia(${value})`; },
+  [filterNames.marvin]: (value) => { imgPreviewElement.style.filter = `invert(${value}%)`; },
+  [filterNames.phobos]: (value) => { imgPreviewElement.style.filter = `blur(${value}px)`; },
+  [filterNames.heat]: (value) => { imgPreviewElement.style.filter = `brightness(${value})`; }
 };
 
 function showSliderElement() {
@@ -110,19 +111,19 @@ function updateSlider(filter) {
 
 
 function addToScale(value) {
-  const oldValue = scaleControlValue.value.slice(0, scaleControlValue.value.length - 1);
+  const oldValue = scaleControlValueElement.value.slice(0, scaleControlValueElement.value.length - 1);
   let newValue = value + Number(oldValue);
   if (newValue > 100) {
     newValue = 100;
   } else if (newValue < 25) {
     newValue = 25;
   }
-  imgPreview.style.transform = `scale(${((newValue) / 100)})`;
-  scaleControlValue.value = `${newValue}%`;
+  imgPreviewElement.style.transform = `scale(${((newValue) / 100)})`;
+  scaleControlValueElement.value = `${newValue}%`;
 }
 
 function updateEffectValue(value) {
-  effectLevelValue.value = Number(value);
+  effectLevelValueElement.value = Number(value);
   filterSetters[currentFilter](value);
 }
 
@@ -136,21 +137,20 @@ function resetEditor() {
 
 function initEditing() {
   noUiSlider.create(sliderElement, sliderOptions[filterNames.none]);
-
   sliderElement.noUiSlider.on('update', () => updateEffectValue(sliderElement.noUiSlider.get()));
 
   hideSliderElement();
-  radioButtons.forEach((it) => {
+  radioButtonsElement.forEach((it) => {
     it.addEventListener('click', () => {
       updateSlider(it.value);
     });
   });
 
-  scalePlusButton.addEventListener('click', () => {
+  scalePlusButtonElement.addEventListener('click', () => {
     addToScale(SCALE_STEP);
   });
 
-  scaleMinusButton.addEventListener('click', () => {
+  scaleMinusButtonElement.addEventListener('click', () => {
     addToScale(-SCALE_STEP);
   });
   resetEditor();

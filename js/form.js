@@ -1,70 +1,74 @@
-import { resetEditor, initEditing } from './imageEditing.js';
-const serverAddress = 'https://26.javascript.pages.academy/kekstagram';
-const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-const submitButton = document.querySelector('.img-upload__submit');
-const fileInput = document.querySelector('#upload-file');
-const imgPreview = document.querySelector('.img-upload__preview img');
-const form = document.querySelector('.img-upload__form');
+import { resetEditor, initEditing } from './image-editing.js';
+import {addEscapeAction} from './utils.js';
+const SERVER_ADDRESS = 'https://26.javascript.pages.academy/kekstagram';
+
+const hashtagInputElement = document.querySelector('.text__hashtags');
+const descriptionElement = document.querySelector('.text__description');
+const imgUploadOverlayElement = document.querySelector('.img-upload__overlay');
+const submitButtonElement = document.querySelector('.img-upload__submit');
+const fileInputElement = document.querySelector('#upload-file');
+const imgPreviewElement = document.querySelector('.img-upload__preview img');
+const formElement = document.querySelector('.img-upload__form');
 
 /*Задание 12.12 было ранее реализовано при выполнении задания 9.9*/
 function prepairePreviews() {
   const fr = new FileReader();
   fr.onload = function () {
-    imgPreview.src = fr.result;
+    imgPreviewElement.src = fr.result;
   };
-  fr.readAsDataURL(fileInput.files[0]);
+  fr.readAsDataURL(fileInputElement.files[0]);
 }
 
 function showImgUploadOverlay() {
   prepairePreviews();
-  imgUploadOverlay.classList.remove('hidden');
+  imgUploadOverlayElement.classList.remove('hidden');
 }
 
 function reloadImage() {
-  fileInput.value = '';
-  fileInput.click();
+  fileInputElement.value = '';
+  fileInputElement.click();
   unblockSubmitButton();
 }
 
 function justRemoveResultOfSending() {
-  const resultFormSending = document.querySelector('.result_form_sending');
-  resultFormSending.remove();
-  fileInput.value = '';
+  const resultFormSendingElement = document.querySelector('.result_form_sending');
+  resultFormSendingElement.remove();
+  fileInputElement.value = '';
   unblockSubmitButton();
 }
 
 function hideImgUploadOverlay() {
   if (isImgUploadOverlayShowed()) {
-    imgUploadOverlay.classList.add('hidden');
+    imgUploadOverlayElement.classList.add('hidden');
   }
 }
 
 function resetImgUploadOverlay() {
-  form.reset(); //сброс формы
+  formElement.reset(); //сброс формы
   unblockSubmitButton(); //разблокировка кнопки, если она заблокирована
   resetEditor(); //сброс редактирования
 }
 
 function closeImgUploadOverlay() {
   if (isImgUploadOverlayShowed()) {
-    imgUploadOverlay.classList.add('hidden');
+    imgUploadOverlayElement.classList.add('hidden');
     resetImgUploadOverlay();
   }
 }
 
 function isImgUploadOverlayShowed() {
-  return !imgUploadOverlay.classList.contains('hidden');
+  return !imgUploadOverlayElement.classList.contains('hidden');
 }
 
 function blockSubmitButton() {
-  if (!submitButton.hasAttribute('disabled')) {
-    submitButton.toggleAttribute('disabled');
+  if (!submitButtonElement.hasAttribute('disabled')) {
+    submitButtonElement.toggleAttribute('disabled');
   }
 }
 
 function unblockSubmitButton() {
-  if (submitButton.hasAttribute('disabled')) {
-    submitButton.toggleAttribute('disabled');
+  if (submitButtonElement.hasAttribute('disabled')) {
+    submitButtonElement.toggleAttribute('disabled');
   }
 }
 
@@ -94,50 +98,49 @@ function showError() {
 }
 
 function startFormSending() {
-  fetch(serverAddress, {
+  fetch(SERVER_ADDRESS, {
     method: 'POST',
-    body: new FormData(form)
+    body: new FormData(formElement)
   }).then((response) => {
     if (response.ok) {
       showSucces();
     } else {
-      showError();
+      throw new Error(`${response.status}`);
     }
-    throw new Error(`${response.status}`);
-  });
+  }).catch(() => showError());
 }
 
 function initForm() {
 
-  form.addEventListener('submit', (evt) => {
+  formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     blockSubmitButton();
     startFormSending();
   });
 
-  fileInput.addEventListener('change', () => {
+  fileInputElement.addEventListener('change', () => {
     showImgUploadOverlay();
   });
 
-  const closeButton = document.querySelector('.img-upload__cancel');
+  const closeButtonElement = document.querySelector('.img-upload__cancel');
 
-  closeButton.addEventListener('click', () => {
+  closeButtonElement.addEventListener('click', () => {
     closeImgUploadOverlay();
   });
 
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape' && isImgUploadOverlayShowed()) {
+  addEscapeAction(() => {
+    if (hashtagInputElement !== document.activeElement && descriptionElement !== document.activeElement) {
       closeImgUploadOverlay();
     }
-    const resultFormSending = document.querySelector('.result_form_sending');
-    if (resultFormSending) {
+    const resultFormSendingElement = document.querySelector('.result_form_sending');
+    if (resultFormSendingElement) {
       justRemoveResultOfSending();
     }
   });
   document.addEventListener('click', (e) => {
-    const resultFormSending = document.querySelector('.result_form_sending');
-    if (resultFormSending) {
-      const div = resultFormSending.querySelector('div');
+    const resultFormSendingElement = document.querySelector('.result_form_sending');
+    if (resultFormSendingElement) {
+      const div = resultFormSendingElement.querySelector('div');
       const withinBoundaries = e.composedPath().includes(div);
       if (!withinBoundaries) {
         justRemoveResultOfSending();

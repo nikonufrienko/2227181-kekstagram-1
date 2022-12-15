@@ -1,5 +1,5 @@
 import { randomInt } from './utils.js';
-const serverAddress = 'https://26.javascript.pages.academy/kekstagram/data';
+const SERVER_ADDRESS = 'https://26.javascript.pages.academy/kekstagram/data';
 
 const commentsVariants = [
   'Всё отлично!',
@@ -50,17 +50,17 @@ function generateImageDiscryptions() {
 }
 
 function showErrorLoading() {
-  const footer = document.querySelector('footer');
-  const div = document.createElement('div');
-  div.classList.add('error_image_loading');
+  const footerElement = document.querySelector('footer');
+  const divElement = document.createElement('div');
+  divElement.classList.add('error_image_loading');
   const newElement = document.createElement('p');
   newElement.textContent = 'Ошибка загрузки изображений!';
   newElement.classList.add('error__title');
-  div.appendChild(newElement);
-  div.style.paddingTop = '200px';
+  divElement.appendChild(newElement);
+  divElement.style.paddingTop = '200px';
   newElement.style.lineHeight='40px';
   newElement.style.textAlign='center';
-  document.body.insertBefore(div,footer);
+  document.body.insertBefore(divElement,footerElement);
 }
 
 function hideErrorLoading() {
@@ -72,7 +72,7 @@ function hideErrorLoading() {
 
 function setRecieverImagesFromServer(resultGetter) { //resultGetter
   //если изображения не загружаются, то и callback не вызывается
-  fetch(serverAddress).then( (response) =>{
+  fetch(SERVER_ADDRESS).then( (response) =>{
     if(response.ok){
       hideErrorLoading();
       return response.json();

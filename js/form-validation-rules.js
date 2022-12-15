@@ -1,8 +1,8 @@
 import { AutoChecker } from './validator.js';
-const hashtagInput = document.querySelector('.text__hashtags');
-const submitButton = document.querySelector('#upload-submit');
-const description = document.querySelector('.text__description');
-const form = document.querySelector('.img-upload__form');
+const hashtagInputElement = document.querySelector('.text__hashtags');
+const submitButtonElement = document.querySelector('#upload-submit');
+const descriptionElement = document.querySelector('.text__description');
+const formElement = document.querySelector('.img-upload__form');
 
 const hashtagsValidationMsg = {
   wrongMinLen: 'Хэштеги не могут быть пустыми!',
@@ -17,7 +17,7 @@ const descriptionValidationMsg = {
 };
 
 const validationConditions = {
-  repeatingError: (it, hashtags) => !(it.length > 1 && it[0] === '#' && hashtags.filter((x) => x === it).length > 1),
+  repeatingError: (it, hashtags) => !(it.length > 1 && it[0] === '#' && hashtags.filter((x) => x.toUpperCase() === it.toUpperCase()).length > 1),
   wrongMaxLen: (it) => !(it.length > 20),
   wrongMinLen: (it) => !(it.length === 1 && it[0] === '#'),
   wrongFirstSymbol: (it) => !(it[0] !== '#' && it.length >= 1),
@@ -25,7 +25,7 @@ const validationConditions = {
 };
 
 function initValidation() {
-  const hashtagAutoChecker = new AutoChecker(hashtagInput, submitButton, form);
+  const hashtagAutoChecker = new AutoChecker(hashtagInputElement, submitButtonElement, formElement);
   for (const key in hashtagsValidationMsg) {
     hashtagAutoChecker.setAutoChecking((it) => {
       const hashtags = it.value.split(' ');
@@ -34,7 +34,7 @@ function initValidation() {
     hashtagsValidationMsg[key]
     );
   }
-  const descriptionAutoChecker = new AutoChecker(description, submitButton);
+  const descriptionAutoChecker = new AutoChecker(descriptionElement, submitButtonElement);
 
   descriptionAutoChecker.setAutoChecking((it) => it.value.length <= 140, descriptionValidationMsg.wrongMaxLen);
 }
