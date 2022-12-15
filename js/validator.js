@@ -14,11 +14,11 @@ class AutoChecker {
     if(elementForBlocking) {
       this.elementForBlocking = elementForBlocking;
     }
-    this.eventQueue = [];
+    this.eventsQueue = [];
     this.inputElement = inputElement;
     this.inputElement.addEventListener(
       'input', () => {
-        for (const event of this.eventQueue) {
+        for (const event of this.eventsQueue) {
           event();
         }
       }
@@ -65,7 +65,7 @@ class AutoChecker {
   }
 
   setAutoChecking(checkFuncion, error) {
-    this.eventQueue.push(() => {
+    this.eventsQueue.push(() => {
       if (!checkFuncion(this.inputElement)) {
         this.showError(error);
       } else {
