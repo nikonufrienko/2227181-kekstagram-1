@@ -10,7 +10,7 @@ const effectLevelValueElement = document.querySelector('.effect-level__value');
 
 let currentFilter = 'none';
 
-const filterNames = {
+const FilterNames = {
   none : 'none',
   chrome : 'chrome',
   sepia : 'sepia',
@@ -20,7 +20,7 @@ const filterNames = {
 };
 
 const sliderOptions = {
-  [filterNames.none]: {
+  [FilterNames.none]: {
     range: {
       min: 0,
       max: 0,
@@ -29,7 +29,7 @@ const sliderOptions = {
     step: 0,
     connect: 'lower'
   },
-  [filterNames.chrome]: {
+  [FilterNames.chrome]: {
     range: {
       min: 0,
       max: 1,
@@ -38,7 +38,7 @@ const sliderOptions = {
     step: 0.1,
     connect: 'lower'
   },
-  [filterNames.sepia]: {
+  [FilterNames.sepia]: {
     range: {
       min: 0,
       max: 1,
@@ -47,7 +47,7 @@ const sliderOptions = {
     step: 0.1,
     connect: 'lower'
   },
-  [filterNames.marvin]: {
+  [FilterNames.marvin]: {
     range: {
       min: 0,
       max: 100,
@@ -56,7 +56,7 @@ const sliderOptions = {
     step: 1,
     connect: 'lower'
   },
-  [filterNames.phobos]: {
+  [FilterNames.phobos]: {
     range: {
       min: 0,
       max: 3,
@@ -65,7 +65,7 @@ const sliderOptions = {
     step: 0.3,
     connect: 'lower'
   },
-  [filterNames.heat]: {
+  [FilterNames.heat]: {
     range: {
       min: 0,
       max: 3,
@@ -78,12 +78,12 @@ const sliderOptions = {
 
 
 const filterSetters = {
-  [filterNames.none]: () => { imgPreviewElement.style.filter = ''; },
-  [filterNames.chrome]: (value) => { imgPreviewElement.style.filter = `grayscale(${value})`; },
-  [filterNames.sepia]: (value) => { imgPreviewElement.style.filter = `sepia(${value})`; },
-  [filterNames.marvin]: (value) => { imgPreviewElement.style.filter = `invert(${value}%)`; },
-  [filterNames.phobos]: (value) => { imgPreviewElement.style.filter = `blur(${value}px)`; },
-  [filterNames.heat]: (value) => { imgPreviewElement.style.filter = `brightness(${value})`; }
+  [FilterNames.none]: () => { imgPreviewElement.style.filter = ''; },
+  [FilterNames.chrome]: (value) => { imgPreviewElement.style.filter = `grayscale(${value})`; },
+  [FilterNames.sepia]: (value) => { imgPreviewElement.style.filter = `sepia(${value})`; },
+  [FilterNames.marvin]: (value) => { imgPreviewElement.style.filter = `invert(${value}%)`; },
+  [FilterNames.phobos]: (value) => { imgPreviewElement.style.filter = `blur(${value}px)`; },
+  [FilterNames.heat]: (value) => { imgPreviewElement.style.filter = `brightness(${value})`; }
 };
 
 function showSliderElement() {
@@ -136,7 +136,7 @@ function resetEditor() {
 
 
 function initEditing() {
-  noUiSlider.create(sliderElement, sliderOptions[filterNames.none]);
+  noUiSlider.create(sliderElement, sliderOptions[FilterNames.none]);
   sliderElement.noUiSlider.on('update', () => updateEffectValue(sliderElement.noUiSlider.get()));
 
   hideSliderElement();
